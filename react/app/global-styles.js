@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import colorConfig from 'config/style';
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -17,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #app {
-    background-color: #fafafa;
+    background-color: ${colorConfig.grayBackground};
     min-height: 100%;
     min-width: 100%;
   }

@@ -25,15 +25,29 @@ module.exports = options => ({
         use: {
           loader: 'babel-loader',
           options: options.babelQuery,
+          query: {
+            plugins: [
+              ['import', { libraryName: 'antd', libraryDirectory: 'es' }],
+            ],
+          },
         },
       },
       {
         // Preprocess our own .css files
         // This is the place to add your own loaders (e.g. sass/less etc.)
         // for a list of loaders, see https://webpack.js.org/loaders/#styling
-        test: /\.css$/,
+        test: /\.css$|\.less$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true,
+            },
+          },
+        ],
       },
       {
         // Preprocess 3rd party .css files located in node_modules
@@ -63,33 +77,29 @@ module.exports = options => ({
         use: [
           {
             loader: 'url-loader',
-            options: {
-              // Inline files smaller than 10 kB
-              limit: 10 * 1024,
-            },
           },
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              mozjpeg: {
-                enabled: false,
-                // NOTE: mozjpeg is disabled as it causes errors in some Linux environments
-                // Try enabling it in your environment by switching the config to:
-                // enabled: true,
-                // progressive: true,
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              optipng: {
-                optimizationLevel: 7,
-              },
-              pngquant: {
-                quality: '65-90',
-                speed: 4,
-              },
-            },
-          },
+          // {
+          //   loader: 'image-webpack-loader',
+          //   options: {
+          //     mozjpeg: {
+          //       enabled: false,
+          //       // NOTE: mozjpeg is disabled as it causes errors in some Linux environments
+          //       // Try enabling it in your environment by switching the config to:
+          //       // enabled: true,
+          //       // progressive: true,
+          //     },
+          //     gifsicle: {
+          //       interlaced: false,
+          //     },
+          //     optipng: {
+          //       optimizationLevel: 7,
+          //     },
+          //     pngquant: {
+          //       quality: '65-90',
+          //       speed: 4,
+          //     },
+          //   },
+          // },
         ],
       },
       {
@@ -111,14 +121,19 @@ module.exports = options => ({
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; Terser will automatically
     // drop any unreachable code.
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify({
+        NODE_ENV: process.env.NODE_ENV,
+      }),
     }),
   ]),
   resolve: {
     modules: ['node_modules', 'app'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
+    alias: {
+      moment$: 'moment/moment.js',
+    },
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window

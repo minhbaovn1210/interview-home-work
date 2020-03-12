@@ -4,6 +4,7 @@
 
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
+import { reducer as reduxForm } from 'redux-form';
 
 import history from 'utils/history';
 import globalReducer from 'containers/App/reducer';
@@ -17,6 +18,7 @@ export default function createReducer(injectedReducers = {}) {
     global: globalReducer,
     language: languageProviderReducer,
     router: connectRouter(history),
+    form: reduxForm,
     ...injectedReducers,
   });
 

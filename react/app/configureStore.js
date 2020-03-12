@@ -5,6 +5,11 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
+
+import appSaga from 'containers/App/saga';
+import apiSaga from 'utils/api/saga';
+import { getUserInfoAction } from 'containers/App/actions';
+
 import createReducer from './reducers';
 
 export default function configureStore(initialState = {}, history) {
@@ -46,6 +51,21 @@ export default function configureStore(initialState = {}, history) {
   store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {}; // Reducer registry
   store.injectedSagas = {}; // Saga registry
+
+  store.runSaga(appSaga);
+  store.runSaga(apiSaga);
+
+  // Reload user profile and user permission when user reload page
+  const states = store.getState();
+
+  if (states.global.token.accessToken.length > 0) {
+    store.dispatch(getUserInfoAction());
+
+    // refresh user profile every 5 minutes
+    setInterval(() => {
+      store.dispatch(getUserInfoAction());
+    }, 300000);
+  }
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */

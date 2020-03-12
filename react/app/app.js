@@ -17,6 +17,9 @@ import FontFaceObserver from 'fontfaceobserver';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
+import throttle from 'lodash/throttle';
+import { loadState, saveState } from 'persistStore';
+
 // Import root app
 import App from 'containers/App';
 
@@ -24,8 +27,11 @@ import App from 'containers/App';
 import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon and the .htaccess file
-import '!file-loader?name=[name].[ext]!./images/favicon.ico';
+import '!file-loader?name=[name].[ext]!./assets/images/favicon.ico';
 import 'file-loader?name=.htaccess!./.htaccess'; // eslint-disable-line import/extensions
+
+// Import CSS preset
+import './assets/less/main.less';
 
 import configureStore from './configureStore';
 
@@ -42,8 +48,21 @@ openSansObserver.load().then(() => {
 });
 
 // Create redux store with history
-const initialState = {};
+const initialState = loadState() || {};
 const store = configureStore(initialState, history);
+
+// auto save persistStore every 1s
+store.subscribe(
+  throttle(() => {
+    const states = store.getState();
+
+    saveState({
+      global: states.global,
+      language: states.language,
+    });
+  }, 1000),
+);
+
 const MOUNT_NODE = document.getElementById('app');
 
 const render = messages => {
