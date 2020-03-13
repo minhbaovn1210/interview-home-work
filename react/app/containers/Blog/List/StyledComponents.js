@@ -10,17 +10,10 @@ export const Wrapper = styled.div`
 
 export const SearchWrapper = styled(FieldRow)`
   border-bottom: thin solid black;
-  padding-bottom: 24px;
-  input {
-    float: left;
-    max-width: 300px !important;
-  }
+  padding-bottom: 8px;
 
   .search-button {
-    float: left;
-    margin-left: 24px;
-    margin-top: -16px;
-    height: 38px;
+    height: 40px;
   }
 
   .add-button {

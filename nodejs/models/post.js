@@ -35,12 +35,31 @@ var postSchema = Schema({
 var Post = (module.exports = mongoose.model("posts", postSchema));
 
 module.exports = {
-  find: function(query, callback) {
-    Post.find(query)
+  find: function({ skip = 0, limit = 3, ...query }, callback) {
+    Post.find(query, null, { skip, limit })
       .sort({ created_at: -1 })
       .populate("owner", ["_id", "name"])
       .populate("comments.owner", ["_id", "name"])
-      .exec(callback);
+      .exec(function(err, data) {
+        if (err) return callback(err, null);
+
+        Post.count(query).exec(function(err2, count) {
+          if (err2) return callback(err2, null);
+
+          callback(null, {
+            data,
+            pagination: {
+              currentPage: parseInt(skip / limit, 10) + 1,
+              totalPages:
+                count % limit === 0
+                  ? parseInt(count / limit, 10)
+                  : parseInt(count / limit, 10) + 1,
+              itemsPerPage: limit,
+              totalItems: count
+            }
+          });
+        });
+      });
   },
   findOne: function(query, callback) {
     Post.findOne(query)

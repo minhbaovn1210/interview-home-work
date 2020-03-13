@@ -3,8 +3,8 @@
  * Display a spinner to indicate background activity
  */
 import React from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
-import { Icon } from 'antd';
 
 import styled, { css } from 'styled-components';
 import colorConfig from 'config/style';
@@ -22,8 +22,7 @@ export const Loading = ({
 }) => {
   const Spinner = () => (
     <Wrapper style={style} withBlanket={withBlanket}>
-      <Icon
-        type="loading"
+      <LoadingOutlined
         style={{
           color,
           fontSize: size,
@@ -74,7 +73,7 @@ const Wrapper = styled.div`
   top: 0;
   z-index: 5;
 
-  ${(props) =>
+  ${props =>
     props.withBlanket &&
     css`
       background-color: rgba(255, 255, 255, 0.5);
@@ -84,7 +83,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   position: relative;
 
-  ${(props) =>
+  ${props =>
     css`
       height: ${props.height};
       width: ${props.width};

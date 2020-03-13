@@ -21,3 +21,9 @@ export const makeSelectBlogList = () =>
     selectBlogListDomain,
     substate => substate.blogList,
   );
+
+export const makeSelectBlogListPagination = () =>
+  createSelector(
+    selectBlogListDomain,
+    substate => substate.pagination,
+  );

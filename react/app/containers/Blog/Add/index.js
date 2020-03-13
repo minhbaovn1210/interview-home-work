@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Helmet } from 'react-helmet';
-import { Button } from 'antd';
+import { Button, notification } from 'antd';
 import { reduxForm, Field } from 'redux-form';
 
 import { useInjectSaga } from 'utils/injectSaga';
@@ -54,12 +54,11 @@ const AddBlog = ({
         { ...values, content },
         {
           onSuccess: () => {
-            resolve();
-
             notification.success({
               message: formatMessage(globalMessages.success),
             });
             history.push('/');
+            resolve();
           },
           onFail,
         },

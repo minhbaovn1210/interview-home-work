@@ -15,7 +15,20 @@ exports.create = function(req, res) {
 };
 
 exports.getAll = function(req, res) {
-  postModel.find({}, function(err, data) {
+  const { itemsPerPage = 3, currentPage = 1, filter = "" } = req.query;
+  const qb = {
+    limit: 1 * itemsPerPage,
+    skip: (currentPage - 1) * itemsPerPage
+  };
+
+  if (filter.length > 0) {
+    qb.$or = [
+      { tags: { $regex: ".*" + filter + ".*", $options: "i" } },
+      { title: { $regex: ".*" + filter + ".*", $options: "i" } }
+    ];
+  }
+
+  postModel.find(qb, function(err, data) {
     if (err || !data) {
       return res.status(400).json({ message: err.message });
     }

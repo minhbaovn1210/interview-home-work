@@ -33,6 +33,8 @@ const Comments = ({ comments, postId, getBlogDetail, submitAddComment }) => {
   }, []);
 
   const onSubmit = () => {
+    if (value.length === 0) return;
+
     setSubmitting(true);
 
     submitAddComment(
@@ -65,7 +67,12 @@ const Comments = ({ comments, postId, getBlogDetail, submitAddComment }) => {
             </Form.Item>
 
             <Form.Item>
-              <Button onClick={onSubmit} type="primary" disabled={submitting}>
+              <Button
+                disabled={value.length === 0}
+                onClick={onSubmit}
+                type="primary"
+                disabled={submitting}
+              >
                 {formatMessage(globalMessages.add)}
               </Button>
             </Form.Item>

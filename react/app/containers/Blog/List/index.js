@@ -5,7 +5,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -21,7 +21,11 @@ import globalMessages from 'containers/App/messages';
 import routes from 'config/routes';
 
 import { getBlogList } from './actions';
-import { makeSelectBlogList, makeSelectBlogListLoading } from './selectors';
+import {
+  makeSelectBlogList,
+  makeSelectBlogListLoading,
+  makeSelectBlogListPagination,
+} from './selectors';
 import Loading from 'components/Loading';
 import Input from 'components/FormElements/Input';
 import { FieldCol } from 'components/Layout';
@@ -32,13 +36,24 @@ import saga from './saga';
 import reducer from './reducer';
 import BlogItem from './BlogItem';
 
-const ListPosts = ({ getBlogList, loading, blogList }) => {
+const itemsPerPage = 3;
+
+const ListPosts = ({ getBlogList, loading, blogList, pagination }) => {
+  const [filter, setFilter] = useState('');
   useInjectSaga({ key: 'BLOG_DOMAIN', saga });
   useInjectReducer({ key: 'BLOG_DOMAIN', reducer });
 
   useEffect(() => {
-    getBlogList();
+    getBlogList({ itemsPerPage, currentPage: 1 });
   }, []);
+
+  const onChangeFilter = e => {
+    setFilter(e.target.value);
+  };
+
+  const onPressEnter = () => {
+    getBlogList({ itemsPerPage, currentPage: 1, filter });
+  };
 
   return (
     <React.Fragment>
@@ -49,14 +64,25 @@ const ListPosts = ({ getBlogList, loading, blogList }) => {
       {loading && <Loading />}
 
       <SearchWrapper>
-        <FieldCol md={24} lg={12}>
-          <Input />
-          <Button className="search-button" type="primary">
+        <FieldCol xs={24} md={16} lg={6}>
+          <Input
+            value={filter}
+            onChange={onChangeFilter}
+            onPressEnter={onPressEnter}
+          />
+        </FieldCol>
+
+        <FieldCol xs={24} md={8} lg={6}>
+          <Button
+            className="search-button"
+            type="primary"
+            onClick={onPressEnter}
+          >
             {formatMessage(globalMessages.search)}
           </Button>
         </FieldCol>
 
-        <FieldCol md={24} lg={12}>
+        <FieldCol xs={24} md={24} lg={12}>
           <Link to={routes.blog.add}>
             <Button className="add-button" type="primary" shape="circle">
               +
@@ -70,10 +96,11 @@ const ListPosts = ({ getBlogList, loading, blogList }) => {
           itemLayout="vertical"
           size="large"
           pagination={{
-            onChange: page => {
-              console.log(page);
+            onChange: currentPage => {
+              getBlogList({ itemsPerPage, currentPage, filter });
             },
-            pageSize: 3,
+            pageSize: pagination.itemsPerPage,
+            total: pagination.totalItems,
           }}
           dataSource={blogList}
           renderItem={item => <BlogItem key={item.id} item={item} />}
@@ -88,11 +115,13 @@ ListPosts.propTypes = {
   loading: PropTypes.bool,
   blogList: PropTypes.array,
   location: PropTypes.object,
+  pagination: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
   blogList: makeSelectBlogList(),
   loading: makeSelectBlogListLoading(),
+  pagination: makeSelectBlogListPagination(),
 });
 
 const mapDispatchToProps = dispatch =>

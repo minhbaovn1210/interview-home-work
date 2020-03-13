@@ -23,6 +23,7 @@ export const initialState = {
     currentPage: 1,
     totalPages: 1,
     itemsPerPage: 3,
+    totalItems: 0,
   },
 };
 
@@ -61,7 +62,7 @@ export default reducer;
 function handleGetBlogListSuccess(state, draft, action) {
   draft.loading = false;
 
-  draft.blogList = action.payload.map(item => ({
+  draft.blogList = action.payload.data.map(item => ({
     ...item,
     created_at: moment(item.created_at).format(DATE_TIME_FORMAT),
     comments: item.comments.reverse().map(c => ({
@@ -69,6 +70,8 @@ function handleGetBlogListSuccess(state, draft, action) {
       created_at: moment(c.created_at).fromNow(),
     })),
   }));
+
+  draft.pagination = action.payload.pagination;
 
   return draft;
 }

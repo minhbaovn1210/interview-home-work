@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 
 import Label from 'components/FormElements/Label';
 import ErrorMessages from 'components/FormElements/ErrorMessages';
@@ -35,7 +35,7 @@ const Input = ({
       type="text"
       disabled={isDisabled}
       placeholder={formatMessage(globalMessages.typeHere)}
-      suffix={search ? <Icon type="search" theme="outlined" /> : undefined}
+      suffix={search ? <SearchOutlined /> : undefined}
       {...rest}
     />
     {!isHiddenError && <ErrorMessages error={error} />}

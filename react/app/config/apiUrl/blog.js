@@ -1,4 +1,5 @@
 import envConfig from 'config/environment';
+import { stringify } from 'query-string';
 
 const { apiHost } = envConfig;
 
@@ -6,7 +7,7 @@ const { apiHost } = envConfig;
  * GET
  * Blog list
  */
-export const getBlogList = () => `${apiHost}/v1/post`;
+export const getBlogList = params => `${apiHost}/v1/post?${stringify(params)}`;
 
 /*
  * Post

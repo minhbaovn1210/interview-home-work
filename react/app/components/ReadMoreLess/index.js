@@ -66,7 +66,7 @@ class ReadMoreLess extends React.Component {
 }
 
 ReadMoreLess.propTypes = {
-  content: PropTypes.string,
+  content: PropTypes.any,
   height: PropTypes.string,
 };
 
