@@ -37,7 +37,7 @@ const appReducer = (state = initialState, action) =>
       case typeAPISuccess(REGISTER):
         return handleLoginSuccess(state, draft, action);
 
-      case LOG_OUT:
+      case typeAPISuccess(LOG_OUT):
         return handleLogout(state, draft, action);
 
       case typeAPISuccess(GET_USER_INFO):
@@ -63,8 +63,7 @@ function handleLoginSuccess(state, draft, action) {
 function handleLogout(state, draft, action) {
   draft = initialState;
 
-  localStorage.removeItem('blog_state');
-  window.location = '/login';
+  return draft;
 }
 
 function handleGetUserInfoSuccess(state, draft, action) {

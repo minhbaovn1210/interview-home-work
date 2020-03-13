@@ -3,6 +3,7 @@ import { notification } from 'antd';
 
 import formatMessage from 'containers/LanguageProvider/formatMessage';
 import globalMessages from 'containers/App/messages';
+import { logOutAction } from 'containers/App/actions';
 
 /**
  * redux-saga middleware to handle request error
@@ -13,6 +14,11 @@ import globalMessages from 'containers/App/messages';
  */
 
 export default function* handleError(responseError) {
+  if (responseError === 'Unauthorized') {
+    yield put(logOutAction());
+    return;
+  }
+
   notification.error({
     message: formatMessage(globalMessages.error),
     description: responseError.message,

@@ -1,5 +1,5 @@
 import { takeLatest, put, select, all } from 'redux-saga/effects';
-import { replace } from 'connected-react-router';
+import { push } from 'connected-react-router';
 
 import { POST, GET } from 'utils/request';
 import { apiAction } from 'utils/api/actions';
@@ -11,7 +11,9 @@ import {
   GET_USER_INFO,
   REGISTER,
   EDIT_USER_PROFILE,
+  LOG_OUT,
 } from 'containers/App/constants';
+import routes from 'config/routes';
 
 export function* submitLogin(action) {
   const {
@@ -74,10 +76,17 @@ export function* submitEditUserProfile({ values, callbacks }) {
   );
 }
 
+export function* logoutHandler() {
+  yield put({ type: typeAPISuccess(LOG_OUT) });
+
+  yield put(push(routes.login));
+}
+
 export default function* AuthSaga() {
   yield takeLatest(LOG_IN, submitLogin);
   yield takeLatest(REGISTER, submitRegister);
   yield takeLatest(EDIT_USER_PROFILE, submitEditUserProfile);
+  yield takeLatest(LOG_OUT, logoutHandler);
 
   yield takeLatest(GET_USER_INFO, fetchUserInfo);
 }

@@ -20,8 +20,11 @@ export default function request(url, options) {
  * @return {object|undefined} Returns either the response, or throws an error
  */
 async function checkError(response) {
-  const data = await response.json();
+  if (response.status === 401) {
+    throw 'Unauthorized';
+  }
 
+  const data = await response.json();
   if (response.status >= 400) {
     throw data;
   }

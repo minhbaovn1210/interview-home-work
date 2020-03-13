@@ -30,8 +30,13 @@ const Authentication = ({ token, children, location }) => {
     return <Redirect to="/" />;
   }
 
+  // Valid route
   if (loggedIn && !isPublicPath(location.pathname)) {
     return children;
+  }
+
+  if (!loggedIn && !isPublicPath(location.pathname)) {
+    return <Redirect to={routes.login} />;
   }
 
   return null;

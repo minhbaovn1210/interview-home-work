@@ -6,7 +6,6 @@ import { compose, bindActionCreators } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { notification, Button } from 'antd';
-import _get from 'lodash/get';
 
 import globalMessages from 'containers/App/messages';
 import formatMessage from 'containers/LanguageProvider/formatMessage';
@@ -22,20 +21,6 @@ import { fields } from './constants';
 
 export function Login({ submitLogin, submitting, handleSubmit, getUserInfo }) {
   const [errorMessage, setErrorMessage] = useState();
-
-  useEffect(() => {
-    // For multiple tab login
-    const watchingToken = setInterval(() => {
-      const state = JSON.parse(localStorage.getItem('ws_state'));
-
-      if (_get(state, 'global.token.accessToken')) {
-        window.location.reload();
-      }
-    }, 1000);
-    return () => {
-      clearInterval(watchingToken);
-    };
-  }, []);
 
   const onClickSubmitLogin = values =>
     new Promise((onSuccess, onFail) => {

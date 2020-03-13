@@ -33,7 +33,6 @@ export function* POST(url, body, accessToken) {
   try {
     response = yield call(request, url, options);
   } catch (error) {
-    console.log('function*POST -> error', error);
     yield* handleError(error);
 
     throw error;
