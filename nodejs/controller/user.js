@@ -1,4 +1,5 @@
 var jwt = require("jsonwebtoken");
+var moment = require("moment");
 var userModel = require("../models/user");
 
 exports.login = function(req, res) {
@@ -23,8 +24,12 @@ exports.login = function(req, res) {
 
 exports.register = function(req, res) {
   const { username, password, name, dob } = req.body;
+  const formattedDOB = moment(dob, "DD/MM/YYYY").format("MM-DD-YYYY");
 
-  userModel.insert({ username, password, name, dob }, function(err, data) {
+  userModel.create({ username, password, name, dob: formattedDOB }, function(
+    err,
+    data
+  ) {
     if (err) {
       return res.status(400).json({ message: err.message });
     }
@@ -53,12 +58,17 @@ exports.getUserProfile = function(req, res) {
 
 exports.editUserProfile = function(req, res) {
   const { _id } = req.user;
+  const formattedDOB = moment(req.body.dob, "DD/MM/YYYY").format("MM-DD-YYYY");
 
-  userModel.findOneAndUpdate({ _id }, req.body, function(err, data) {
-    if (err || !data) {
-      return res.status(400).json({ message: "User is not found" });
+  userModel.findOneAndUpdate(
+    { _id },
+    { ...req.body, dob: formattedDOB },
+    function(err, data) {
+      if (err || !data) {
+        return res.status(400).json({ message: "User is not found" });
+      }
+
+      res.status(200).json(data);
     }
-
-    res.status(200).json(data);
-  });
+  );
 };

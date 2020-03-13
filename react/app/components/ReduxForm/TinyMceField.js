@@ -6,7 +6,7 @@
 
 import React from 'react';
 import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Editor } from '@tinymce/tinymce-react';
@@ -19,7 +19,7 @@ import colorConfig from 'config/style';
 const Wrapper = styled.div`
   .mce-tinymce {
     box-shadow: none;
-    ${(props) =>
+    ${props =>
       props.error && // eslint-disable-line
       css`
         border: 1px solid ${colorConfig.error};

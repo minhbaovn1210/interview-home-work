@@ -40,7 +40,7 @@ const DatePicker = ({
   dateFormat,
   ...rest
 }) => {
-  const checkDisabledDate = (renderDay) => {
+  const checkDisabledDate = renderDay => {
     const isDisabled = disabledDate ? disabledDate(renderDay) : false;
 
     if (disablePastDate) {
@@ -66,7 +66,7 @@ const DatePicker = ({
         isHavePrefix={isHavePrefix}
         showToday={false}
         outlineBottom={outlineBottom}
-        format={dateFormat || 'D/M/YYYY'}
+        format={dateFormat || 'DD/MM/YYYY'}
         placeholder="DD/MM/YYYY"
         {...rest}
         error={error}

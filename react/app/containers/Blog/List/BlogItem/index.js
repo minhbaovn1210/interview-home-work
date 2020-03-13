@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import moment from 'moment';
+import React, { useState, memo } from 'react';
+
 import { List, Avatar, Tag } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 
@@ -7,6 +7,7 @@ import formatMessage from 'containers/LanguageProvider/formatMessage';
 import globalMessages from 'containers/App/messages';
 import { DATE_TIME_FORMAT } from 'config/constants';
 import { FieldRow, FieldCol } from 'components/Layout';
+import ReadMoreLess from 'components/ReadMoreLess';
 
 import {
   Wrapper,
@@ -34,7 +35,7 @@ const BlogItem = ({ item }) => {
 
   return (
     <Wrapper>
-      <List.Item key={item.title}>
+      <List.Item>
         <List.Item.Meta
           title={<Title>{item.title}</Title>}
           description={
@@ -42,20 +43,21 @@ const BlogItem = ({ item }) => {
               <FieldCol md={24} lg={12}>
                 <div>
                   {formatMessage(globalMessages.authorName, {
-                    name: item.owner,
+                    name: item.owner.name,
                   })}
                 </div>
                 <div>
                   {formatMessage(globalMessages.createdAtDateTime, {
-                    dateTime: moment(item.created_at).format(DATE_TIME_FORMAT),
+                    dateTime: item.created_at,
                   })}
                 </div>
               </FieldCol>
 
               <FieldCol md={24} lg={12}>
                 <TagWrapper>
-                  {item.tags.map(value => (
+                  {item.tags.map((value, index) => (
                     <Tag
+                      key={value + index}
                       color={
                         getColorOfTag[
                           Math.floor(Math.random() * getColorOfTag.length)
@@ -70,20 +72,26 @@ const BlogItem = ({ item }) => {
             </FieldRow>
           }
         />
-        {item.content}
+
+        <ReadMoreLess
+          content={<span dangerouslySetInnerHTML={{ __html: item.content }} />}
+          height="110"
+        />
 
         <CommentIcon onClick={onClickOpenComment}>
           <IconText
             icon={MessageOutlined}
-            text="2"
+            text={item.comments.length}
             key="list-vertical-message"
           />
         </CommentIcon>
 
-        {isShowComment && <Comments />}
+        {isShowComment && (
+          <Comments postId={item._id} comments={item.comments} />
+        )}
       </List.Item>
     </Wrapper>
   );
 };
 
-export default BlogItem;
+export default memo(BlogItem);

@@ -18,7 +18,6 @@ class ReadMoreLess extends React.Component {
 
   checkContentHeight = () => {
     const height = this.content.clientHeight;
-
     this.setState({
       isEllipse: height > this.props.height,
     });
@@ -40,7 +39,7 @@ class ReadMoreLess extends React.Component {
     return (
       <React.Fragment>
         <ContentWrapper
-          innerRef={(el) => {
+          ref={el => {
             this.content = el;
           }}
           className={isEllipse && isSeeMore ? 'limit-height' : ''}

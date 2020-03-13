@@ -5,13 +5,17 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var cors = require("cors");
 
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/user");
+var postRouter = require("./routes/post");
 
 var passport = require("./services/passport");
 
 var app = express();
+
+app.use(cors());
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -24,7 +28,9 @@ app.use(passport.initialize());
 // Connect to Mongoose and set connection variable
 mongoose.connect(process.env.MONGO_DB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
 });
 var db = mongoose.connection;
 
@@ -33,6 +39,7 @@ if (!db) console.log("Error connecting db");
 else console.log("Db connected successfully");
 
 app.use("/", indexRouter);
-app.use("/user", userRouter);
+app.use("/v1/user", userRouter);
+app.use("/v1/post", postRouter);
 
 module.exports = app;

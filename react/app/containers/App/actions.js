@@ -6,19 +6,19 @@ import {
   EDIT_USER_PROFILE,
 } from './constants';
 
-export const logInAction = (values, callbacks) => ({
+export const logInAction = (values, callbacks = {}) => ({
   type: LOG_IN,
   values,
   callbacks,
 });
 
-export const registerAction = (values, callbacks) => ({
+export const registerAction = (values, callbacks = {}) => ({
   type: REGISTER,
   values,
   callbacks,
 });
 
-export const editUserProfileAction = (values, callbacks) => ({
+export const editUserProfileAction = (values, callbacks = {}) => ({
   type: EDIT_USER_PROFILE,
   values,
   callbacks,

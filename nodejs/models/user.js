@@ -3,7 +3,9 @@ var mongoose = require("mongoose");
 var userSchema = mongoose.Schema({
   username: {
     type: String,
-    required: true
+    required: true,
+    index: true,
+    unique: true
   },
   password: {
     type: String,
@@ -26,11 +28,13 @@ module.exports = {
       .select("-password")
       .exec(callback);
   },
-  insert: function({ username, password, dob, name }, callback) {
+  create: function({ username, password, dob, name }, callback) {
     const newUser = new User({ username, password, dob, name });
     newUser.save(callback);
   },
   findOneAndUpdate: function(query, values, callback) {
-    User.findOneAndUpdate(query, values, { new: true }, callback);
+    User.findOneAndUpdate(query, values, { new: true })
+      .select("-password")
+      .exec(callback);
   }
 };

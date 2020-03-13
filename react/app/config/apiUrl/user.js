@@ -24,4 +24,4 @@ export const postEditUserProfile = () => `${apiHost}/v1/user/edit`;
  * GET
  * User info
  */
-export const getUserInfoURL = () => `${apiHost}/v1/user/info`;
+export const getUserInfoURL = () => `${apiHost}/v1/user/profile`;

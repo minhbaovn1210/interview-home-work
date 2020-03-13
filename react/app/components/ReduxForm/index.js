@@ -12,5 +12,4 @@ export { default as DatePickerField } from 'components/ReduxForm/DatePickerField
 export { default as TimePickerField } from 'components/ReduxForm/TimePickerField'; // prettier-ignore
 export { default as SelectField } from 'components/ReduxForm/SelectField'; // prettier-ignore
 export { default as MultiSelectTagField } from 'components/ReduxForm/MultiSelectTagField'; // prettier-ignore
-export { default as VisiblePasswordField } from 'components/ReduxForm/VisiblePasswordField'; // prettier-ignore
 export { default as TinyMceField } from 'components/ReduxForm/TinyMceField'; // prettier-ignore

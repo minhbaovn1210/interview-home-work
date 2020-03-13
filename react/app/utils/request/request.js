@@ -20,10 +20,11 @@ export default function request(url, options) {
  * @return {object|undefined} Returns either the response, or throws an error
  */
 async function checkError(response) {
-  if (response.statusCode >= 400) {
-    throw error;
+  const data = await response.json();
+
+  if (response.status >= 400) {
+    throw data;
   }
 
-  const data = await response.json();
   return data;
 }

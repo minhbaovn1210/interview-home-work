@@ -12,6 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Helmet } from 'react-helmet';
 import { List, Button } from 'antd';
+import { Link } from 'react-router-dom';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -22,12 +23,14 @@ import routes from 'config/routes';
 import { getBlogList } from './actions';
 import { makeSelectBlogList, makeSelectBlogListLoading } from './selectors';
 import Loading from 'components/Loading';
+import Input from 'components/FormElements/Input';
+import { FieldCol } from 'components/Layout';
 
-import { Wrapper } from './StyledComponents';
+import { Wrapper, SearchWrapper } from './StyledComponents';
 import {} from './constants';
 import saga from './saga';
 import reducer from './reducer';
-import BlogItem from './components/BlogItem';
+import BlogItem from './BlogItem';
 
 const ListPosts = ({ getBlogList, loading, blogList }) => {
   useInjectSaga({ key: 'BLOG_DOMAIN', saga });
@@ -45,11 +48,24 @@ const ListPosts = ({ getBlogList, loading, blogList }) => {
 
       {loading && <Loading />}
 
-      <Wrapper>
-        <Button className="add-button" type="primary" shape="circle">
-          +
-        </Button>
+      <SearchWrapper>
+        <FieldCol md={24} lg={12}>
+          <Input />
+          <Button className="search-button" type="primary">
+            {formatMessage(globalMessages.search)}
+          </Button>
+        </FieldCol>
 
+        <FieldCol md={24} lg={12}>
+          <Link to={routes.blog.add}>
+            <Button className="add-button" type="primary" shape="circle">
+              +
+            </Button>
+          </Link>
+        </FieldCol>
+      </SearchWrapper>
+
+      <Wrapper>
         <List
           itemLayout="vertical"
           size="large"

@@ -35,6 +35,7 @@ export function EditUserProfile({
       submitEditUserProfile({ ...values }, { onSuccess, onFail });
     })
       .then(() => {
+        setIsOpenChangePassword(false);
         notification.success({
           message: formatMessage(globalMessages.success),
         });
@@ -59,8 +60,6 @@ export function EditUserProfile({
       />
 
       <FormWrapper>
-        <Field name={fields.ID} component="span" />
-
         <Field
           label={formatMessage(globalMessages.name)}
           name={fields.NAME}

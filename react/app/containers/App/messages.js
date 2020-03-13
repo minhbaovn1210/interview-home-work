@@ -29,6 +29,10 @@ export default defineMessages({
     id: 'app.containers.login',
     defaultMessage: 'Login',
   },
+  logout: {
+    id: 'app.containers.logout',
+    defaultMessage: 'Logout',
+  },
   blogList: {
     id: 'app.containers.blogList',
     defaultMessage: 'Blog List',
@@ -104,5 +108,57 @@ export default defineMessages({
   add: {
     id: 'app.containers.add',
     defaultMessage: 'Add',
+  },
+  usernameHaveExisted: {
+    id: 'app.containers.usernameHaveExisted',
+    defaultMessage: 'Username has already existed',
+  },
+  typeHere: {
+    id: 'app.containers.typeHere',
+    defaultMessage: 'Type here',
+  },
+  search: {
+    id: 'app.containers.search',
+    defaultMessage: 'Search',
+  },
+  addBlog: {
+    id: 'app.containers.addBlog',
+    defaultMessage: 'Add Blog',
+  },
+  title: {
+    id: 'app.containers.title',
+    defaultMessage: 'Title',
+  },
+  content: {
+    id: 'app.containers.content',
+    defaultMessage: 'Content',
+  },
+  tags: {
+    id: 'app.containers.tags',
+    defaultMessage: 'Tags',
+  },
+  selectPlaceHolder: {
+    id: 'app.containers.selectPlaceHolder',
+    defaultMessage: 'Select placeholder',
+  },
+  loading: {
+    id: 'app.containers.loading',
+    defaultMessage: 'Loading',
+  },
+  notFound: {
+    id: 'app.containers.notFound',
+    defaultMessage: 'Not Found',
+  },
+  noData: {
+    id: 'app.containers.noData',
+    defaultMessage: 'No Data',
+  },
+  seeMore: {
+    id: 'app.containers.seeMore',
+    defaultMessage: 'See More',
+  },
+  seeLess: {
+    id: 'app.containers.seeLess',
+    defaultMessage: 'See Less',
   },
 });

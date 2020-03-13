@@ -1,7 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 /**
  *
- * WeHub
+ * BlogRouter
  *
  */
 
@@ -12,9 +12,11 @@ import { Switch, Route } from 'react-router-dom';
 import routes from 'config/routes';
 
 import BlogList from './List';
+import AddBlog from './Add';
 
 const BlogRouter = () => (
   <Switch>
+    <Route exact path={routes.blog.add} component={AddBlog} />
     <Route path={[routes.index, routes.blog.index]} component={BlogList} />
   </Switch>
 );

@@ -6,6 +6,7 @@ export const FormAlertWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 0px;
+  z-index: 1;
 `;
 
 export const AlertContent = styled.div`

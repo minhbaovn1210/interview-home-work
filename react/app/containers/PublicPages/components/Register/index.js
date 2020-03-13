@@ -31,7 +31,7 @@ export function Login({
   useEffect(() => {
     // For multiple tab login
     const watchingToken = setInterval(() => {
-      const state = JSON.parse(localStorage.getItem('ws_state'));
+      const state = JSON.parse(localStorage.getItem('blog_state'));
 
       if (_get(state, 'global.token.accessToken')) {
         window.location.reload();
@@ -51,7 +51,11 @@ export function Login({
       })
       .catch(error => {
         notification.destroy();
-        setErrorMessage(error.message);
+        if (error.message.includes('duplicate key')) {
+          setErrorMessage(formatMessage(globalMessages.usernameHaveExisted));
+        } else {
+          setErrorMessage(error.message);
+        }
 
         setTimeout(() => setErrorMessage(''), 3000);
       });

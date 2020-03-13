@@ -1,4 +1,5 @@
 import produce from 'immer';
+import moment from 'moment';
 import { notification } from 'antd';
 
 import {
@@ -6,6 +7,7 @@ import {
   typeAPIFail,
   typeAPIRequest,
 } from 'utils/api/constants';
+import { DATE_FORMAT } from 'config/constants';
 
 import {
   LOG_IN,
@@ -49,7 +51,7 @@ const appReducer = (state = initialState, action) =>
 
 export default appReducer;
 
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, no-unused-vars */
 function handleLoginSuccess(state, draft, action) {
   const { accessToken } = action.payload;
 
@@ -58,7 +60,6 @@ function handleLoginSuccess(state, draft, action) {
   return draft;
 }
 
-/* eslint-disable no-param-reassign, no-unused-vars */
 function handleLogout(state, draft, action) {
   draft = initialState;
 
@@ -70,6 +71,7 @@ function handleGetUserInfoSuccess(state, draft, action) {
   draft.userProfile = {
     ...draft.userProfile,
     ...action.payload,
+    dob: moment(action.payload.dob).format(DATE_FORMAT),
   };
 
   return draft;

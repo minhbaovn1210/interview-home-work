@@ -7,7 +7,6 @@ import PublicPages from 'containers/PublicPages/Loadable';
 import Authentication from 'utils/auth/Authentication';
 
 import GlobalStyle from 'global-styles';
-import LogOut from 'containers/Logout';
 
 import BlogRouter from 'containers/Blog/BlogRouter';
 import EditUserProfile from 'containers/EditUserProfile';
@@ -26,7 +25,6 @@ export default function App() {
   return (
     <ErrorBoundary>
       <Route path={[routes.login, routes.register]} component={PublicPages} />
-      <Route path={routes.logout} component={LogOut} />
 
       <Authentication>
         <Header />

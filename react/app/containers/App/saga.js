@@ -32,82 +32,46 @@ export function* submitLogin(action) {
 }
 
 export function* submitRegister(action) {
-  // const {
-  //   values,
-  //   callbacks: { onSuccess, onFail },
-  // } = action;
+  const {
+    values,
+    callbacks: { onSuccess, onFail },
+  } = action;
 
-  // yield put(
-  //   apiAction({
-  //     url: API.postRegisterURL(),
-  //     method: POST,
-  //     label: REGISTER,
-  //     body: values,
-  //     onFail,
-  //     onSuccess,
-  //   }),
-  // );
-
-  yield put({
-    type: typeAPISuccess(REGISTER),
-    payload: {
-      accessToken: '12345',
-    },
-  });
-
-  action.callbacks.onSuccess({ accessToken: '12345' });
+  yield put(
+    apiAction({
+      url: API.postRegisterURL(),
+      method: POST,
+      label: REGISTER,
+      body: values,
+      onSuccess,
+      onFail,
+    }),
+  );
 }
 
 export function* fetchUserInfo({ token }) {
-  // yield put(
-  //   apiAction({
-  //     url: API.getUserInfoURL(token),
-  //     method: GET,
-  //     label: GET_USER_INFO,
-  //     onFail,
-  //     onSuccess,
-  //   }),
-  // );
-
-  yield put({
-    type: typeAPISuccess(GET_USER_INFO),
-    payload: {
-      id: 4,
-      username: 'admin',
-      name: 'Admin',
-      dob: '31/12/2012',
-      created_at: 1576506719083,
-    },
-  });
+  yield put(
+    apiAction({
+      url: API.getUserInfoURL(token),
+      method: GET,
+      label: GET_USER_INFO,
+    }),
+  );
 }
 
 export function* submitEditUserProfile({ values, callbacks }) {
-  // yield put(
-  //   apiAction({
-  //     url: API.postEditUserProfile(),
-  //     method: POST,
-  //     label: EDIT_USER_PROFILE,
-  //     body: values,
-  //     onFail,
-  //     onSuccess,
-  //   }),
-  // );
+  const { onSuccess, onFail } = callbacks;
 
-  // if (redirectPath) {
-  //   yield put(replace(redirectPath));
-  // }
-
-  yield put({
-    type: typeAPISuccess(EDIT_USER_PROFILE),
-    payload: {
-      id: 4,
-      username: 'admin',
-      name: values.name,
-      dob: values.dob,
-    },
-  });
-
-  callbacks.onSuccess();
+  yield put(
+    apiAction({
+      url: API.postEditUserProfile(),
+      method: POST,
+      label: EDIT_USER_PROFILE,
+      body: values,
+      onSuccess,
+      onFail,
+    }),
+  );
 }
 
 export default function* AuthSaga() {
