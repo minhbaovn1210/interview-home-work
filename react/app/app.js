@@ -17,8 +17,7 @@ import FontFaceObserver from 'fontfaceobserver';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
-import throttle from 'lodash/throttle';
-import { loadState, saveState } from 'persistStore';
+import { loadState } from 'persistStore';
 
 // Import root app
 import App from 'containers/App';
@@ -50,18 +49,6 @@ openSansObserver.load().then(() => {
 // Create redux store with history
 const initialState = loadState() || {};
 const store = configureStore(initialState, history);
-
-// auto save persistStore every 1s
-store.subscribe(
-  throttle(() => {
-    const states = store.getState();
-
-    saveState({
-      global: states.global,
-      language: states.language,
-    });
-  }, 1000),
-);
 
 const MOUNT_NODE = document.getElementById('app');
 

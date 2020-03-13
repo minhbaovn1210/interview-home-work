@@ -30,12 +30,11 @@ const Authentication = ({ token, children, location }) => {
     return <Redirect to="/" />;
   }
 
-  // if not logged in and go to app => redirect to login
-  if (!loggedIn && !isPublicPath(location.pathname)) {
-    return <Redirect to={routes.login} />;
+  if (loggedIn && !isPublicPath(location.pathname)) {
+    return children;
   }
 
-  return children;
+  return null;
 };
 
 Authentication.propTypes = {
