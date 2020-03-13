@@ -38,14 +38,20 @@ import BlogItem from './BlogItem';
 
 const itemsPerPage = 3;
 
-const ListPosts = ({ getBlogList, loading, blogList, pagination }) => {
+const ListPosts = ({
+  getBlogList,
+  loading,
+  blogList,
+  pagination,
+  location,
+}) => {
   const [filter, setFilter] = useState('');
   useInjectSaga({ key: 'BLOG_DOMAIN', saga });
   useInjectReducer({ key: 'BLOG_DOMAIN', reducer });
 
   useEffect(() => {
     getBlogList({ itemsPerPage, currentPage: 1 });
-  }, []);
+  }, [location.key]);
 
   const onChangeFilter = e => {
     setFilter(e.target.value);
